@@ -133,7 +133,7 @@ all3 p h x y z =
   allF-elim (p x y) z (allF-elim (λ y' → allF (p x y')) y
     (allF-elim (λ x' → allF (λ y' → allF (p x' y'))) x h))
 
--- Executable linear interpolation at nodes 0 and 1.
+-- Linear interpolation at nodes 0 and 1.
 interpolate : F → F → F → F
 interpolate y0 y1 r = add y0 (mul (sub y1 y0) r)
 
@@ -141,6 +141,8 @@ interpolate y0 y1 r = add y0 (mul (sub y1 y0) r)
 lagrange : F → F → F → F
 lagrange y0 y1 r = add (mul (sub f1 r) y0) (mul r y1)
 
+-- Linear interpolation from evaluations at 0 and 1.
+-- Justin Thaler, Proofs Arguments and Zero-Knowledge, 2.4 Lemma 2.3 (Univariate Lagrange Interpolation)
 interpolate-is-lagrange : (y0 y1 r : F) → interpolate y0 y1 r ≡ lagrange y0 y1 r
 interpolate-is-lagrange y0 y1 r = same-sound _ _
   (all3 (λ a b c → same (interpolate a b c) (lagrange a b c)) refl y0 y1 r)
@@ -155,6 +157,9 @@ interpolate-linear a b r = same-sound _ _
 -- Each message fixes a degree-at-most-one round polynomial by its two values.
 -- The challenge is supplied externally and must be sampled independently in a
 -- real interactive protocol; it is stored here to replay a transcript.
+-- Sum-check protocol: Lund, Fortnow, Karloff, Nisan (1992).
+-- Justin Thaler - 4.1
+-- Challenges are supplied externally.
 data Message : Set where
   round : (at0 at1 challenge : F) → Message
 
