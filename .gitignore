@@ -1,2 +1,8 @@
+_build/
 *.agdai
 **/MAlonzo/**
+*.hi
+*.o
+sumcheck-smoke
+sumcheck-properties
+dist-newstyle/
