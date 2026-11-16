@@ -1,0 +1,21 @@
+name: Agda
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - uses: agda/agda-setup-action@v1
+        with:
+          agda-version: '2.9.0'
+      - run: agda --version
+      - run: agda --build-library
